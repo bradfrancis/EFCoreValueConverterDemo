@@ -1,10 +1,9 @@
-﻿using EFCoreValueConverterDemo.Data.Configurations;
-using EFCoreValueConverterDemo.Data.Entities;
+﻿using EFCoreValueConverterDemo.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace EFCoreValueConverterDemo.Data
 {
-    public class DemoDbContext : DbContext
+    public partial class DemoDbContext : DbContext
     {
         public DemoDbContext(DbContextOptions options)
             : base (options)
@@ -17,7 +16,15 @@ namespace EFCoreValueConverterDemo.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.ApplyConfiguration(new OrderConfiguration());
+
+            modelBuilder
+                .Entity<Order>()
+                .Property(x => x.CompletedDate)
+                .HasColumnType("DATETIME2(5)");
+
+            OnModelCreatingPartial(modelBuilder);
         }
+
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

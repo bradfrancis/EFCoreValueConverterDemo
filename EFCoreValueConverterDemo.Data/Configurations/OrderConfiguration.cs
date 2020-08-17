@@ -2,7 +2,6 @@
 using EFCoreValueConverterDemo.Data.ValueConverters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Collections.Generic;
 
 namespace EFCoreValueConverterDemo.Data.Configurations
 {
@@ -23,7 +22,7 @@ namespace EFCoreValueConverterDemo.Data.Configurations
 
             builder
                 .Property(x => x.OrderItems)
-                .HasConversion(new JsonValueConverter<IEnumerable<OrderItem>>());
+                .HasConversion(new JsonValueConverter<OrderItemCollection>());
         }
     }
 }

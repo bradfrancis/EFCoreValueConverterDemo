@@ -8,7 +8,6 @@ namespace EFCoreValueConverterDemo.Data.Entities
         public Guid OrderID { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime? CompletedDate { get; set; }
-
-        public IEnumerable<OrderItem> OrderItems { get; set; }
+        public OrderItemCollection OrderItems { get; set; }
     }
 }

@@ -4,7 +4,6 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Globalization;
 using System.Linq;
 
 namespace EFCoreValueConverterDemo.Data.Tests
@@ -55,12 +54,15 @@ namespace EFCoreValueConverterDemo.Data.Tests
                 {
                     CreatedDate = christmasDay.AddDays(i - 12),
                     CompletedDate = christmasDay.AddDays(i - 12),
-                    OrderItems = OrderItems.Where(x => x.Quantity <= i).Select(x => new OrderItem()
+                    OrderItems = new OrderItemCollection()
                     {
-                        OrderItemID = Guid.NewGuid(),
-                        Description = x.Description,
-                        Quantity = x.Quantity
-                    }).ToList()
+                        OrderItems = OrderItems.Where(x => x.Quantity <= i).Select(x => new OrderItem()
+                        {
+                            OrderItemID = Guid.NewGuid(),
+                            Description = x.Description,
+                            Quantity = x.Quantity
+                        }).ToList()
+                    }
                 };
             }
         }
@@ -80,7 +82,8 @@ namespace EFCoreValueConverterDemo.Data.Tests
                 var orders = dbContext.Orders.AsEnumerable();
 
                 Assert.IsTrue(orders.All(x => x.OrderID != Guid.Empty));
-                Assert.IsTrue(orders.All(x => x.OrderItems.Count() > 0));
+                Assert.IsTrue(orders.All(x => x.OrderItems != null));
+                Assert.IsTrue(orders.All(x => x.OrderItems.OrderItems.Count() > 0));
             }
         }
     }
